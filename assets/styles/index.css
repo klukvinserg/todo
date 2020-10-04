@@ -1,0 +1,52 @@
+body {
+  height: 100vh;
+  background: radial-gradient(40% 50%, #faecd5, #cae4d8);
+}
+
+h1 {
+  font-weight: bolder;
+}
+
+.desc {
+  width: 80%;
+}
+
+.text {
+  color: black;
+  font-size: 18px;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-left: 15px;
+  margin-right: 15px;
+  border-top: 1px solid rgb(177, 171, 171);
+}
+
+.container .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+a {
+  color: black;
+}
+
+a, i {
+    height: 37px;
+}
+
+/* .in {
+  background-color: white;
+  border: transparent;
+  background-image: url(../img/delete.svg);
+  background-position: center;
+  background-repeat: no-repeat, repeat;
+} */
+
+.button {
+  background-color: white !important;
+  border: none;
+}

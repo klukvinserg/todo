@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/styles/index.css">
+</head>
+
+<body class="valign-wrapper">
+
+
+    <div class="container ">
+        <div class="row valign-wrapper">
+            <div class="col s12">
+                <div class="z-depth-3 card-panel hoverable">
+                    <h1 class="center-align">My Todo</h1>
+
+                    <div class="row task-container">
+                        <form class="col s12" action="#">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="task" type="text" class="validate">
+                                    <label for="task">Add task</label>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+
+
+                    <% for(let i=0; i<users.length; i++) {%>
+
+
+                    <div class="line">
+                        <p class="desc">
+                            <input type="checkbox" id="checkbox<%= users[i].id %>" />
+                            <label for="checkbox<%= users[i].id %>"><span class="text"><%= users[i].description %></span></label>
+                        </p>
+
+                        
+                        <!-- <a href="/edit/<%= users[i].id %>"><i class="small material-icons">create</i></a> -->
+
+                        <a class="waves-effect waves-light modal-trigger" href="#modal1" onclick="clickMy(event)" name="<%= users[i].description %>" key="<%= users[i].id %>"><i class="small material-icons" >create</i></a>
+
+                        
+                        <form action="/delete/<%= users[i].id %>" method="POST">
+                
+                            <button class="button" type="submit"><i class="small material-icons">delete</i></button>
+                            
+                        </form>
+
+                       
+                        
+                        
+                    </div>
+
+                    <%} %>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Trigger
+  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a> -->
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Edit task</h4>
+      <p id="task-old"></p>
+
+      
+      <div class="row">
+
+            <div class="row">
+
+
+                <form  method="POST" id="action_edit">
+                    <div class="input-field col s12">
+                        <input id="task-edit" type="text" class="validate" name="new_description">
+                        <label for="task-edit">Edit task</label>
+                    </div>
+                           
+                    
+                    <div class="modal-footer">
+                    <button class="modal-action modal-close button" type="submit" id="btn_edit">Edit</button>
+                    </div>
+                  
+                    
+                </form>
+            </div>
+
+
+    </div>
+      
+    </div>
+
+
+
+  </div>
+
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script>
+         $(document).ready(function(){
+    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+    </script>
+    <script src="js/index-event.js"></script>
+</body>
+
+</html>
