@@ -9,6 +9,7 @@ h1 {
 
 .desc {
   width: 80%;
+  display: flex;
 }
 
 .text {
@@ -34,19 +35,20 @@ a {
   color: black;
 }
 
-a, i {
-    height: 37px;
+a,
+i {
+  height: 37px;
 }
-
-/* .in {
-  background-color: white;
-  border: transparent;
-  background-image: url(../img/delete.svg);
-  background-position: center;
-  background-repeat: no-repeat, repeat;
-} */
 
 .button {
   background-color: white !important;
   border: none;
+}
+
+.text_line-through {
+  text-decoration: line-through;
+}
+
+.hide-block {
+  visibility: hidden;
 }

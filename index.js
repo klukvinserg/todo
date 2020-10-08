@@ -6,15 +6,9 @@ const app = express();
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-/////
-
-// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// parse application/json
 app.use(bodyParser.json());
-
-/////
 
 app.use('/assets', express.static('assets'));
 app.use('/js', express.static('js'));
@@ -57,16 +51,27 @@ app.get('/', function (req, res) {
         users: data,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      res.status(500).send({
+        success: false,
+        error: err,
+      });
+    });
 });
 
 app.post('/delete/:id', function (req, res) {
   const userid = req.params.id;
+
   User.destroy({ where: { id: userid } })
     .then(() => {
       res.redirect('/');
     })
-    .catch((err) => console.log(err));
+    .catch((err) =>
+      res.status(500).send({
+        success: false,
+        error: err,
+      })
+    );
 });
 
 app.post('/edit/:id', urlencodedParser, function (req, res) {
@@ -75,9 +80,67 @@ app.post('/edit/:id', urlencodedParser, function (req, res) {
   const userdescription = req.body.new_description;
   const userId = req.params.id;
 
-  User.update({ description: userdescription }, { where: { id: userId } })
-    .then(() => {
-      res.redirect('/');
+  if (userdescription.trim().length > 0) {
+    User.update({ description: userdescription }, { where: { id: userId } })
+      .then(() => {
+        res.redirect('/');
+      })
+      .catch((err) => {
+        res.status(500).send({
+          success: false,
+          error: err,
+        });
+      });
+  }
+});
+
+app.post('/edit_status/:id', urlencodedParser, function (req, res) {
+  if (!req.body) return res.sendStatus(400);
+
+  const userId = req.params.id;
+
+  let userStatus;
+
+  User.findByPk(userId)
+    .then((user) => {
+      if (!user) return;
+
+      user.status === 'on' ? (userStatus = 'off') : (userStatus = 'on');
+
+      User.update({ status: userStatus }, { where: { id: userId } })
+        .then(() => {
+          res.redirect('/');
+        })
+        .catch((err) => console.log('123'));
     })
-    .catch((err) => console.log('123'));
+    .catch((err) => {
+      res.status(500).send({
+        success: false,
+        error: err,
+      });
+    });
+});
+
+app.post('/create', urlencodedParser, function (req, res) {
+  if (!req.body) return res.sendStatus(400);
+
+  let str = req.body.inputValue;
+
+  if (str.trim().length > 0) {
+    let user = {
+      status: 'on',
+      description: req.body.inputValue,
+    };
+
+    User.create(user)
+      .then(() => {
+        res.redirect('/');
+      })
+      .catch((err) => {
+        res.status(500).send({
+          success: false,
+          error: err,
+        });
+      });
+  }
 });
